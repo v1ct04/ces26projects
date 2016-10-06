@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>CES-26 - Tarefa 1</title>
+</head>
+<body>
+  <div class="container">
+    <h1>Lista de Visitantes</h1>
+    <p>Insira o seu nome parar marcar sua presença nesse site super interessante.</p>
+    <div>
+      <form id="name-form">
+        <label for="visitor-name">Nome:</label>
+        <input type="text" id="visitor-name">
+        <button type="submit">Enviar</button>
+      </form>
+      <p>Lista de visitantes até então:</p>
+      <ul id="names">
+        <li>Victor Gonçalves Elias</li>
+      </ul>
+    </div>
+  </div>
+  <script type="text/javascript">
+    var nameForm = document.forms["name-form"];
+    nameForm.onsubmit = function(ev) {
+      var nameInput = document.getElementById("visitor-name");
+      if (nameInput.value == "") {
+        alert("Escreva seu nome antes de enviar o formulário.");
+      } else {
+        var node = document.createElement("li");
+        node.textContent = nameInput.value;
+        document.getElementById("names").appendChild(node);
+      }
+      nameForm.reset();
+      return false;
+    }
+  </script>
+</body>
+</html>
