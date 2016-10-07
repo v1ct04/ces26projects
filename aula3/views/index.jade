@@ -1,0 +1,23 @@
+doctype html
+html
+  block head
+    title="CES-26 - Tarefa 2"
+
+  body
+    block content
+      div.container
+        h1 Lista de Visitantes
+        if name
+          p Seja bem-vindo, #{name}!
+          p Aqui estão todos que já passaram por esse site:
+        else
+          p Insira o seu nome parar marcar sua presença nesse site super interessante.
+          div
+            form(action='/name', method='post')
+              label(for="visitorName") Nome:
+              input#visitorName(type="text", name="name")
+              button(type="submit") enviar
+          p Lista de visitantes até então:
+        ul#names
+          each name in names
+            li #{name}
