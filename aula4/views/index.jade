@@ -1,0 +1,56 @@
+doctype html
+html
+  block head
+    title="CES-26 - Tarefa 2"
+    script(type='text/javascript', src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js')
+
+  body
+    block content
+      div.container
+        h1 Lista de Visitantes
+        if name
+          p Seja bem-vindo, #{name}!
+          form(action='/reset', method='post')
+            button(type="submit") Limpar
+          p Aqui estão todos que já passaram por esse site:
+        else
+          p#greeting Insira o seu nome parar marcar sua presença nesse site super interessante.
+          div
+            form#nameForm
+              label(for="visitorName") Nome:
+              input#visitorName(type="text", name="name")
+              button(type="submit") enviar
+          p Lista de visitantes até então:
+        ul#names
+          each name in names
+            li #{name}
+    script var names = !{JSON.stringify(names)};
+    script.
+      $('#nameForm').submit(function(ev) {
+        var form = $(this);
+        ev.preventDefault();
+          
+        var name = $('#visitorName').val().trim();
+        if (name == "") {
+          alert("Escreva seu nome antes de enviar o formulário.");
+          return;
+        }
+        $.post('/name', {name: name}, function(res) {
+          var nameList = $('#names');
+          nameList.empty();
+          
+          for (let i in res.names) {
+            let elm = $('<li>').text(res.names[i]);
+            nameList.append(elm);
+            if (i >= names.length) elm.hide().fadeIn();
+          }
+          names = res.names;
+          
+          form.replaceWith(
+              $('<form action="/reset", method="post" />')
+                .append('<button type="submit">Limpar</button>')
+              );
+          $('#greeting').text("Obrigado pelo cadastro, " + name + "!");
+        });
+        form[0].reset();
+      });
