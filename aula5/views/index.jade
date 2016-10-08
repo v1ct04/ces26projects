@@ -1,0 +1,37 @@
+doctype html
+html
+  block head
+    title="CES-26 - Tarefa 4"
+    script(type='text/javascript', src='http://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js')
+
+  body
+    block content
+      div.container(ng-app="palindromes", ng-init="words=#{JSON.stringify(words)}")
+        h1 Lista de Palíndromes
+        p Escreva um novo palíndrome para adicionar à lista.
+        div(ng-controller="InsertionFormController")
+          form#wordForm
+            label(for="word") Nome:
+            input#word(type="text", ng-model="word")
+            button(type="submit" ng-click="send(word)") Enviar
+        p Lista de palíndromes até então:
+        ul#words
+            li(ng-repeat="word in words") {{ word }}
+    script.
+      var isPalindrome = !{isPalindrome.toString()};
+      angular.module('palindromes', [])
+        .controller('InsertionFormController', function($scope, $http) {
+          $scope.send = function(word) {
+            if (!isPalindrome(word)) {
+              alert("A palavra tem que ser um palíndorme!");
+              return;
+            }
+            $http.post('/word', {word: angular.copy(word)})
+            .then(function(res) {
+              $scope.$parent.words = res.data.words;
+            }, function(res) {
+              alert(res.data.error);
+            });
+            $scope.word = "";
+          }
+        });
