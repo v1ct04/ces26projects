@@ -84,7 +84,7 @@ Database.prototype.getHero = function(id, callback) {
 };
 
 Database.prototype.getHeroes = function(callback) {
-  this.heroes.find({}, mapping(callback));
+  this.heroes.find({}, {sort: { id: 1 }}, mapping(callback));
 };
 
 Database.prototype.updateHero = function(id, name, callback) {
@@ -96,7 +96,7 @@ Database.prototype.deleteHero = function (id, callback) {
 };
 
 Database.prototype.searchHeroes = function(name, callback) {
-  this.heroes.find({$text: {$search: name}}, mapping(callback));
+  this.heroes.find({$text: {$search: name}}, {sort: { id: 1 }}, mapping(callback));
 };
 
 module.exports = new Database();
