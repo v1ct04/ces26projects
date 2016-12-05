@@ -20,7 +20,7 @@ function resultTo(res) {
       res.status(500);
       res.json({err: err.toString()});
     } else {
-      res.json(result);
+      res.json({data: result});
     }
   }
 }
