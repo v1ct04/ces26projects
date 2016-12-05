@@ -16,14 +16,15 @@ import { HeroService } from './hero.service';
 import { AppRoutingModule }     from './app-routing.module';
 import './rxjs-extensions';
 
+const inMemoryDb = false;
+
 @NgModule({
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
-    InMemoryWebApiModule.forRoot(InMemoryDataService),
     AppRoutingModule
-  ],
+  ].concat(inMemoryDb ? [InMemoryWebApiModule.forRoot(InMemoryDataService)] : []),
   declarations: [
     AppComponent,
     DashboardComponent,
